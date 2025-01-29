@@ -27,41 +27,43 @@ async function sendEmail( email ) {
 }
 
 //register route handling
-exports.register = ( req, res, next ) => {
-    //check for validation errors
+exports.register = async ( req, res, next ) => {
     const errors = validationResult( req );
     if ( !errors.isEmpty() )
     {
         return res.status( 400 ).json( { errors: errors.array() } );
     }
-    //extract data from req.body
-    const email = req.body.email;
-    const name = req.body.name;
-    const password = req.body.password;
-    User.findOne( { email: email } ).then( user => {
-        if ( user )
+
+    const { email, name, password } = req.body;
+
+    try
+    {
+        // Check if email already exists
+        const existingUser = await User.findOne( { email } );
+        if ( existingUser )
         {
-            res.status( 422 ).json( { message: 'Email already exisists please provide unique email id.' } )
+            return res.status( 422 ).json( { message: 'Email already exists, please provide a unique email id.' } );
         }
-        return bcrypt.hash( password, 12 );
-    } ).then( hashedPassword => {
-        const user = new User( {
-            email: email,
-            name: name,
-            password: hashedPassword
-        } );
-        sendEmail( email ).then( () => console.log( 'mail sent to:', email )
-        ).catch( err => { console.log( err ); res.status( 500 ).json( { message: "Some error has been occured" } ) } );
-        return user.save();
-    } ).then( result => {
 
-        res.status( 201 ).json( { message: "User has been created successfully", user: result } )
-    } ).catch( err => {
-        console.log( err );
-        res.status( 500 ).json( { message: 'Some error has been occured' } )
-    } );
+        // Hash password
+        const hashedPassword = await bcrypt.hash( password, 14 ); // Improved cost factor
 
-}
+        // Create new user
+        const newUser = new User( { email, name, password: hashedPassword } );
+        const result = await newUser.save();
+
+        // Send email after successful user creation
+        await sendEmail( email );
+
+        // Respond with success
+        res.status( 201 ).json( { message: 'User has been created successfully', user: result } );
+    } catch ( err )
+    {
+        console.error( 'Error during registration:', err );
+        res.status( 500 ).json( { message: 'An error occurred while registering the user.' } );
+    }
+};
+
 
 //login route handling
 exports.login = ( req, res, next ) => {
