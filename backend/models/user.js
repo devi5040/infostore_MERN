@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require( "mongoose" );
 
 const Schema = mongoose.Schema;
 
@@ -18,26 +18,26 @@ const userSchema = new Schema(
     },
     address: {
       type: String,
-      required: true,
+      default: '-',
     },
     bloodGroup: {
       type: String,
       default: "-",
     },
     mobileNumber: {
-      type: Number,
+      type: String,
       default: "-",
     },
     age: {
-      type: Number,
+      type: String,
       default: "-",
     },
     height: {
-      type: Number,
+      type: String,
       default: "-",
     },
     weight: {
-      type: Number,
+      type: String,
       default: "-",
     },
     profileImage: {
@@ -48,4 +48,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model( "user", userSchema );
