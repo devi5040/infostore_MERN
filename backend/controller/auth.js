@@ -3,6 +3,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 //sending emails
 const nodemailer = require('nodemailer');
@@ -18,12 +19,12 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-async function sendEmail(email) {
+async function sendEmail(email, token = '') {
     await transporter.sendMail({
         from: 'Deviprasad <dpraimd@gmail.com>',
         to: email,
         subject: 'Hello world',
-        html: "<h1>Hello,</h1><p>Thank you for registering to Infostore<p><p>We welcome you to our family</p><div>For any support please contact <a href='mailto:dpraimd@gmail.com'>Support</a></div>",
+        html: `<h1>Hello,</h1><p>Thank you for registering to Infostore<p><p>We welcome you to our family</p><div>For any support please contact <a href='mailto:dpraimd@gmail.com'>Support</a></div>Please find the link to reset your password:<a href='http://localhost/8080/auth/forgot-password/${token}'>Link</a>`,
     });
 }
 
@@ -108,12 +109,42 @@ exports.login = async(req, res, next) => {
     }
 };
 
+//mail the password reset token
+exports.getAccessLink = async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array() });
+    }
+    const email = req.body.email;
+    try {
+        crypto.randomBytes(32, async(err, buffer) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Some internal error has occured while creating token',
+                });
+            }
+            const token = buffer.toString('hex');
+            const user = await User.findOne({ email: req.body.email });
+            if (!user) {
+                return res.status(404).json({
+                    message: 'User not available with provided email id',
+                });
+            }
+            const expirationTime = Date.now() + 60 * 10 * 1000;
+            user.resetToken = token;
+            user.tokenExpiration = expirationTime;
+            await user.save();
+            await sendEmail(req.body.email, token);
+            res
+                .status(200)
+                .json({ message: 'Mail sent to the user with access link' });
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Some error occured' });
+    }
+};
+
 //forgot-password route handling
 exports.forgotPassword = (req, res, next) => {
     console.log('forgotPassword');
-};
-
-//change-password route handling
-exports.changePassword = (req, res, next) => {
-    console.log('changePassword');
 };

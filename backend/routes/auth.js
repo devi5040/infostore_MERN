@@ -42,10 +42,18 @@ router.post(
     authController.login
 );
 
+//route for getting link for forgot password on mail
+router.post(
+    '/forgot-password',
+    body('email')
+    .trim()
+    .isEmail()
+    .notEmpty()
+    .withMessage('Email id is not valid'),
+    authController.getAccessLink
+);
+
 //Route for forgot-password
 router.post('/forgot-password/:token');
-
-//Route for changing password
-router.post('/update-password');
 
 module.exports = router;
