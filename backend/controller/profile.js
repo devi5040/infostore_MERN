@@ -16,3 +16,11 @@ exports.getProfile = async (req, res, next) => {
     res.status (500).json ({message: 'Some error occured'});
   }
 };
+
+//edit the profile
+exports.editProfile = async (req, res, next) => {
+  console.log ('body::', req.body);
+  // console.log (req);
+
+  console.log ('filename::', req.imageUrl);
+};

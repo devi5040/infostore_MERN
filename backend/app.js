@@ -11,12 +11,23 @@ const profileRoutes = require ('./routes/profile');
 
 //Initialize app
 const app = express ();
+
 //Initialize bodyparser
 app.use (bodyParser.json ());
 
 //set userId in req
 app.use ((req, res, next) => {
-  req.userId = req.body.userId;
+  req.userId = '679a64dcb2440f3edcfc21fe';
+  next ();
+});
+
+app.use ((req, res, next) => {
+  res.setHeader ('Access-Control-Allow-Origin', '*');
+  res.setHeader (
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader ('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next ();
 });
 
