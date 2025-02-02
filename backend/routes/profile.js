@@ -34,11 +34,10 @@ router.post (
     const file = req.file;
 
     if (!file) {
-      return await profileController.editProfile ();
+      return await profileController.editProfile (req, res, next);
     }
     const fileName =
       file.fieldname + '-' + Date.now () + path.extname (file.originalname);
-    console.log (fileName);
 
     try {
       const uploadParams = {
@@ -48,11 +47,10 @@ router.post (
       };
 
       const s3UploadResponse = await s3.upload (uploadParams).promise ();
-      console.log (s3UploadResponse);
 
       req.imageUrl = s3UploadResponse.Location;
 
-      await profileController.editProfile ();
+      await profileController.editProfile (req, res, next);
     } catch (error) {
       console.log (error);
       res.status (500).json ({message: 'some error occured'});
