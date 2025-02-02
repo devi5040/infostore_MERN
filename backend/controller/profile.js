@@ -6,7 +6,7 @@ const {validationResult} = require ('express-validator');
 exports.getProfile = async (req, res, next) => {
   const userId = req.userId;
   try {
-    const user = await User.findOne ({_id: userId});
+    const user = await User.findOne ({_id: userId}).select ('-password');
 
     //user not found
     if (!user) {
@@ -14,6 +14,8 @@ exports.getProfile = async (req, res, next) => {
     }
     res.status (200).json ({message: 'User found successfully', user: user});
   } catch (error) {
+    console.log (error);
+
     res.status (500).json ({message: 'Some error occured'});
   }
 };
@@ -38,7 +40,7 @@ exports.editProfile = async (req, res, next) => {
   const userId = req.userId;
 
   try {
-    const existingUser = await User.findById (userId);
+    const existingUser = await User.findById (userId).select ('password');
 
     if (!existingUser) {
       return res.status (404).json ({message: 'User does not found'});
