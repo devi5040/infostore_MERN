@@ -1,6 +1,7 @@
 const mongoose = require ('mongoose');
 const Documents = require ('../models/documents');
 const User = require ('../models/user');
+const {validationResult} = require ('express-validator');
 
 exports.getDocuments = async (req, res, next) => {
   const userId = req.userId;
@@ -24,6 +25,14 @@ exports.getDocuments = async (req, res, next) => {
 exports.addDocuments = async (req, res, next) => {
   const userId = req.userId;
   const documentUrl = req.documentUrl;
+  const title = req.body.title;
+  if (
+    title.trim ().length <= 3 &&
+    title.trim () === '' &&
+    title.trim () === undefined
+  ) {
+    return res.status (400).json ({message: 'Validation failed'});
+  }
   try {
     const user = await User.findById (userId);
     if (!user) {
@@ -31,7 +40,7 @@ exports.addDocuments = async (req, res, next) => {
     }
     const newDocument = new Documents ({
       imageUrl: documentUrl,
-      title: req.body.title,
+      title: title,
       userId: userId,
     });
     await newDocument.save ();

@@ -1,9 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require ('mongoose');
 
 const Schema = mongoose.Schema;
 
-const educationSchema = new Schema({
+const educationSchema = new Schema ({
   education: {
+    type: String,
+    required: true,
+  },
+  institute: {
     type: String,
     required: true,
   },
@@ -13,16 +17,16 @@ const educationSchema = new Schema({
   },
   achievements: {
     type: String,
-    default: "-",
+    default: '-',
   },
   otherDetails: {
     type: String,
-    default: "-",
+    default: '-',
   },
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: 'user',
   },
 });
 
-module.exports = mongoose.model("education", educationSchema);
+module.exports = mongoose.model ('education', educationSchema);

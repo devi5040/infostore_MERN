@@ -9,12 +9,15 @@ const PORT = process.env.PORT || 8080;
 const authRoutes = require ('./routes/auth');
 const profileRoutes = require ('./routes/profile');
 const documentRoutes = require ('./routes/documents');
+const educationRoutes = require ('./routes/education');
 
 //Initialize app
 const app = express ();
 
 //Initialize bodyparser
 app.use (bodyParser.json ());
+// app.use (express.urlencoded ({extended: true}));
+// app.use (express.json ());
 
 //set userId in req
 app.use ((req, res, next) => {
@@ -36,6 +39,7 @@ app.use ((req, res, next) => {
 app.use ('/auth', authRoutes);
 app.use ('/profile', profileRoutes);
 app.use ('/documents', documentRoutes);
+app.use ('/education', educationRoutes);
 
 mongoose
   .connect (process.env.MONGO_URI)
