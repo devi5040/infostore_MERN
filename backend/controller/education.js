@@ -65,8 +65,6 @@ exports.editEducationDetails = async (req, res, next) => {
       userId: userId,
     });
 
-    console.log (educationDetails);
-
     if (!educationDetails) {
       return res
         .status (404)
