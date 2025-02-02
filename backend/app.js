@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8080;
 //require all the routes
 const authRoutes = require ('./routes/auth');
 const profileRoutes = require ('./routes/profile');
+const documentRoutes = require ('./routes/documents');
 
 //Initialize app
 const app = express ();
@@ -34,6 +35,7 @@ app.use ((req, res, next) => {
 //use routes
 app.use ('/auth', authRoutes);
 app.use ('/profile', profileRoutes);
+app.use ('/documents', documentRoutes);
 
 mongoose
   .connect (process.env.MONGO_URI)
