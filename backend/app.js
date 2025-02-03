@@ -10,6 +10,7 @@ const authRoutes = require ('./routes/auth');
 const profileRoutes = require ('./routes/profile');
 const documentRoutes = require ('./routes/documents');
 const educationRoutes = require ('./routes/education');
+const passwordStoreRoutes = require ('./routes/passwordstore');
 
 //Initialize app
 const app = express ();
@@ -40,6 +41,7 @@ app.use ('/auth', authRoutes);
 app.use ('/profile', profileRoutes);
 app.use ('/documents', documentRoutes);
 app.use ('/education', educationRoutes);
+app.use ('/password', passwordStoreRoutes);
 
 mongoose
   .connect (process.env.MONGO_URI)

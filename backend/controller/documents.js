@@ -1,4 +1,4 @@
-const mongoose = require ('mongoose');
+// NEED TO ADD AUTHORIZATION
 const Documents = require ('../models/documents');
 const User = require ('../models/user');
 const {validationResult} = require ('express-validator');
