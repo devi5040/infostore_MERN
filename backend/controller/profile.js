@@ -1,4 +1,3 @@
-// NEED TO ADD AUTHORIZATION
 const User = require ('../models/user');
 const {validationResult} = require ('express-validator');
 
