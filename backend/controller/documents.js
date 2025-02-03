@@ -1,7 +1,5 @@
-// NEED TO ADD AUTHORIZATION
 const Documents = require ('../models/documents');
 const User = require ('../models/user');
-const {validationResult} = require ('express-validator');
 
 exports.getDocuments = async (req, res, next) => {
   const userId = req.userId;
@@ -9,6 +7,9 @@ exports.getDocuments = async (req, res, next) => {
     const user = await User.findById (userId);
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
+    }
+    if (user._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
     }
     const documents = await Documents.find ({userId: userId});
     if (!documents) {
@@ -37,6 +38,9 @@ exports.addDocuments = async (req, res, next) => {
     const user = await User.findById (userId);
     if (!user) {
       return res.status (404).json ({message: 'User does not exists'});
+    }
+    if (user._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
     }
     const newDocument = new Documents ({
       imageUrl: documentUrl,

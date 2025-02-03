@@ -10,6 +10,9 @@ exports.getEducation = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
     }
+    if (user._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
+    }
     const educationDetails = await Education.find ({userId: userId});
     if (!educationDetails) {
       return res
@@ -33,6 +36,9 @@ exports.addEducationDetails = async (req, res, next) => {
     const user = await User.findById (userId);
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
+    }
+    if (user._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
     }
     const educationDetails = new Education ({
       education: req.body.education,
@@ -61,6 +67,9 @@ exports.editEducationDetails = async (req, res, next) => {
     const user = await User.findById (userId);
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
+    }
+    if (user._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
     }
     const educationDetails = await Education.findOne ({
       _id: educationId,

@@ -12,10 +12,11 @@ exports.getProfile = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
     }
+    if (user._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
+    }
     res.status (200).json ({message: 'User found successfully', user: user});
   } catch (error) {
-    console.log (error);
-
     res.status (500).json ({message: 'Some error occured'});
   }
 };
@@ -44,6 +45,9 @@ exports.editProfile = async (req, res, next) => {
 
     if (!existingUser) {
       return res.status (404).json ({message: 'User does not found'});
+    }
+    if (existingUser._id.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
     }
 
     existingUser.name = name;

@@ -1,4 +1,3 @@
-// NEED TO ADD AUTHORIZATION
 const User = require ('../models/user');
 const bcrypt = require ('bcryptjs');
 const {validationResult} = require ('express-validator');
@@ -152,6 +151,9 @@ exports.verifyOtp = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User not found'});
     }
+    if (user._id.toString () !== req.userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
+    }
     const userOtp = user.resetToken;
     const expirationTime = user.tokenExpiration;
     if (otp !== userOtp || expirationTime <= Date.now ()) {
@@ -176,6 +178,9 @@ exports.changePassword = async (req, res, next) => {
     const user = await User.findOne ({email: email});
     if (!user) {
       return res.status (404).json ({message: 'User not found'});
+    }
+    if (user._id.toString () !== req.userId.toString ()) {
+      return res.status (403).json ({message: 'User not authorized'});
     }
     const expirationTime = user.tokenExpiration;
     if (expirationTime <= Date.now () || expirationTime === undefined) {
