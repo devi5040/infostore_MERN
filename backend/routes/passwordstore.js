@@ -2,11 +2,13 @@ const express = require ('express');
 const router = express.Router ();
 const {check} = require ('express-validator');
 const passwordStoreController = require ('../controller/passwordstore');
+const isAuth = require ('../middleware/authenticationMiddleware');
 
 router.get ('/password-store', passwordStoreController.getPasswordStore);
 
 router.post (
   '/password-store',
+  isAuth,
   [
     check ('platform')
       .trim ()
@@ -20,8 +22,10 @@ router.post (
   ],
   passwordStoreController.addPasswords
 );
+
 router.put (
   '/password-store',
+  isAuth,
   [
     check ('platform')
       .trim ()

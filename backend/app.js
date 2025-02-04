@@ -20,12 +20,6 @@ app.use (bodyParser.json ());
 // app.use (express.urlencoded ({extended: true}));
 // app.use (express.json ());
 
-//set userId in req
-app.use ((req, res, next) => {
-  req.userId = '679a64dcb2440f3edcfc21fe';
-  next ();
-});
-
 app.use ((req, res, next) => {
   res.setHeader ('Access-Control-Allow-Origin', '*');
   res.setHeader (

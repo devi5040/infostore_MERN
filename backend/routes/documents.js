@@ -3,6 +3,7 @@ const router = express.Router ();
 const multer = require ('multer');
 const AWS = require ('aws-sdk');
 const path = require ('path');
+const isAuth = require ('../middleware/authenticationMiddleware');
 
 const documentController = require ('../controller/documents');
 
@@ -22,10 +23,11 @@ const upload = multer ({
   },
 });
 
-router.get ('/get-documents', documentController.getDocuments);
+router.get ('/get-documents', isAuth, documentController.getDocuments);
 
 router.put (
   '/add-documents',
+  isAuth,
   upload.single ('file'),
   async (req, res, next) => {
     const file = req.file;

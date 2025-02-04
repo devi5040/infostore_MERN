@@ -1,13 +1,18 @@
 const express = require ('express');
 const {check} = require ('express-validator');
 const educationController = require ('../controller/education');
+const isAuth = require ('../middleware/authenticationMiddleware');
 
 const router = express.Router ();
 
-router.get ('/get-education', educationController.getEducation);
+router.get ('/get-education', isAuth, educationController.getEducation);
 
-router.post ('/add-education', educationController.addEducationDetails);
+router.post ('/add-education', isAuth, educationController.addEducationDetails);
 
-router.post ('/edit-education', educationController.editEducationDetails);
+router.post (
+  '/edit-education',
+  isAuth,
+  educationController.editEducationDetails
+);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const {check} = require ('express-validator');
 const AWS = require ('aws-sdk');
 const multer = require ('multer');
 const path = require ('path');
+const isAuth = require ('../middleware/authenticationMiddleware');
 
 const router = express.Router ();
 const profileController = require ('../controller/profile');
@@ -29,6 +30,7 @@ const upload = multer ({
 //edit profile details
 router.post (
   '/edit-profile',
+  isAuth,
   upload.single ('file'),
   async (req, res, next) => {
     const file = req.file;
@@ -59,6 +61,6 @@ router.post (
 );
 
 //get profile details
-router.get ('/get-profile', profileController.getProfile);
+router.get ('/get-profile', isAuth, profileController.getProfile);
 
 module.exports = router;
