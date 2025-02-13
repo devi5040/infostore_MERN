@@ -4,7 +4,11 @@ const {check} = require ('express-validator');
 const passwordStoreController = require ('../controller/passwordstore');
 const isAuth = require ('../middleware/authenticationMiddleware');
 
-router.get ('/password-store', passwordStoreController.getPasswordStore);
+router.get (
+  '/password-store',
+  isAuth,
+  passwordStoreController.getPasswordStore
+);
 
 router.post (
   '/password-store',

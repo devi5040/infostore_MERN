@@ -95,7 +95,7 @@ exports.login = async (req, res, next) => {
         .json ({message: 'Wrong password. Please enter correct password '});
     }
 
-    const token = await jwt.sign (
+    const token = jwt.sign (
       {email: existingUser.email, userId: existingUser._id},
       process.env.JWT_SECRET,
       {expiresIn: '1h'}
