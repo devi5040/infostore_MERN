@@ -9,6 +9,9 @@ function NavBar() {
                 <li className='cursor-pointer border border-secondary p-2 rounded-sm'>Edit documents</li>
                 <li className='cursor-pointer border border-secondary p-2 rounded-sm'>Delete documents</li>
             </NavItem>
+            <NavItem label='Profile'>
+                <li className='cursor-pointer border border-secondary p-2 rounded-sm'>Edit Profile</li>
+            </NavItem>
         </div>
     )
 }
