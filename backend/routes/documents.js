@@ -54,4 +54,10 @@ router.put (
   }
 );
 
+router.delete (
+  '/delete-document/:documentId',
+  isAuth,
+  documentController.deleteDocument
+);
+
 module.exports = router;

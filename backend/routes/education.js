@@ -15,4 +15,10 @@ router.post (
   educationController.editEducationDetails
 );
 
+router.delete (
+  '/delete-education/:educationId',
+  isAuth,
+  educationController.deleteEducation
+);
+
 module.exports = router;

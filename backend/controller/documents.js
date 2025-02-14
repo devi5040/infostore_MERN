@@ -1,5 +1,6 @@
 const Documents = require ('../models/documents');
 const User = require ('../models/user');
+const removeImageFromS3 = require ('../util/removeImage');
 
 exports.getDocuments = async (req, res, next) => {
   const userId = req.userId;
@@ -8,9 +9,9 @@ exports.getDocuments = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
     }
-    if (user._id.toString () !== userId.toString ()) {
-      return res.status (403).json ({message: 'User not authorized'});
-    }
+    // if (user._id.toString () !== userId.toString ()) {
+    //   return res.status (403).json ({message: 'User not authorized'});
+    // }
     const documents = await Documents.find ({userId: userId});
     if (!documents) {
       return res.status (404).json ({message: 'Documents does not found'});
@@ -39,9 +40,9 @@ exports.addDocuments = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User does not exists'});
     }
-    if (user._id.toString () !== userId.toString ()) {
-      return res.status (403).json ({message: 'User not authorized'});
-    }
+    // if (user._id.toString () !== userId.toString ()) {
+    //   return res.status (403).json ({message: 'User not authorized'});
+    // }
     const newDocument = new Documents ({
       imageUrl: documentUrl,
       title: title,
@@ -51,5 +52,29 @@ exports.addDocuments = async (req, res, next) => {
     res.status (201).json ({message: 'New document created successfully'});
   } catch (error) {
     res.status (500).json ({message: 'An Internal error occured'});
+  }
+};
+
+exports.deleteDocument = async (req, res, next) => {
+  const userId = req.userId;
+  const documentId = req.params.documentId;
+  try {
+    const user = await User.findById (userId);
+    if (!user) {
+      return res.status (404).json ({message: 'User does not exists'});
+    }
+    const document = await Documents.findById (documentId);
+
+    if (!document) {
+      return res.status (404).json ({message: 'Document does not exists'});
+    }
+    if (document.userId.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'Not authenticated'});
+    }
+    removeImageFromS3 (document.imageUrl);
+    await Documents.findByIdAndDelete (documentId);
+    res.status (200).json ({message: 'Document deleted successfully'});
+  } catch (error) {
+    return res.status (500).json ({message: 'Some error occured'});
   }
 };
