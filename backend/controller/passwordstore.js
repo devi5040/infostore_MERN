@@ -86,3 +86,25 @@ exports.editPasswords = async (req, res, next) => {
     res.status (500).json ({message: 'Some error occured'});
   }
 };
+
+exports.deletePassword = async (req, res, next) => {
+  const userId = req.userId;
+  const passwordId = req.params.passwordId;
+  try {
+    const user = await User.findById (userId);
+    if (!user) {
+      return res.status (404).json ({message: 'User does not found'});
+    }
+    const passwordData = await PasswordStore.findById (passwordId);
+    if (!passwordData) {
+      return res.status (404).json ({message: 'Password data does not found'});
+    }
+    if (passwordData.userId.toString () !== userId.toString ()) {
+      return res.status (403).json ({message: 'User does not authorized'});
+    }
+    await PasswordStore.findByIdAndDelete (passwordId);
+    res.status (200).json ({message: 'Password data deleted successfully'});
+  } catch (error) {
+    res.status (500).json ({message: 'Some error occured'});
+  }
+};
