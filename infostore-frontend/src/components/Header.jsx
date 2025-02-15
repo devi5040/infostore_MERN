@@ -1,6 +1,6 @@
 import React from 'react'
 import userIcon from '../assets/user-icon.svg'
-import NavBar from './NavBar'
+import NavBar from './nav/NavBar'
 
 function Header() {
     return (
