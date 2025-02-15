@@ -15,16 +15,13 @@ function Documents() {
     ];
 
     const editingHandler = () => {
-        console.log( 'inside edit handler' );
         setIsEditing( true )
     }
 
     const closeModal = () => {
-        console.log( 'inside close modal' );
         setIsEditing( false )
     }
 
-    console.log( "isEditing", isEditing );
 
 
     return (
