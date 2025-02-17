@@ -28,7 +28,7 @@ function Documents() {
 
     return (
         <Fragment>
-            { isEditing && <DocumentAdd editingHandler={ editingHandler } closeModal={ closeModal } /> }
+            { isEditing && <DocumentAdd closeModal={ closeModal } /> }
             <AddItemButton btnCaption='Add Document' isEditing={ editingHandler } />
             <Paginator currentPage={ currentPage } lastPage={ Math.ceil( TOTAL_DOCUMENTS / ITEMS_PER_PAGE ) } onChangePage={ setCurrentPage }>
                 { documents.map( ( document ) => {
