@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import EducationAdd from '../components/education/EducationAdd';
 import AddItemButton from '../components/Button/AddItemButton';
-import ItemCard from '../components/ItemCard/ItemCard';
 import EducationCard from '../components/ItemCard/EducationCard';
 import Paginator from '../components/Paginator/Paginator';
 
@@ -9,7 +8,6 @@ let TOTAL_EDUCATION_DETAILS = 0;
 const TOTAL_ITEMS_PER_PAGE = 3;
 
 function Education() {
-    const [isEditing, setIsEditing] = useState( false );
     const [isAdding, setIsAdding] = useState( false );
     const [currentPage, setCurrentPage] = useState( 1 );
 
