@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import Button from '../Button/Button'
 
 function Paginator( { children, onChangePage, currentPage, lastPage } ) {
-    console.log( currentPage );
     const nextButtonClickHandler = () => {
         onChangePage( currentPage => currentPage + 1 );
     }

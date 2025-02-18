@@ -15,7 +15,7 @@ function EducationCard( { education } ) {
 
     return (
         <Fragment>
-            { isEditing && <EditEducation /> }
+            { isEditing && <EditEducation closeModalHandler={ closeModal } /> }
             <div className='border border-gray-300 shadow-md rounded-md p-10 text-secondary'>
                 <h2 className='text-center font-bold text-xl'>{ education.education }</h2>
                 <div className='flex flex-col space-y-2'>

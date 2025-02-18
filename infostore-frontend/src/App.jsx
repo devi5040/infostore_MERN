@@ -2,6 +2,7 @@ import Header from './components/Header'
 import Documents from './pages/Documents'
 import Education from './pages/Education'
 import Home from './pages/Home'
+import PasswordStore from './pages/PasswordStore'
 
 function App() {
 
@@ -11,7 +12,8 @@ function App() {
       <div className='absolute top-30 left-100 m-10 w-[65%]'>
         {/* <Home /> */ }
         {/* <Documents /> */ }
-        <Education />
+        {/* <Education /> */ }
+        <PasswordStore />
       </div>    </>
   )
 }
