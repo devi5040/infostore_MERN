@@ -3,6 +3,7 @@ import Documents from './pages/Documents'
 import Education from './pages/Education'
 import Home from './pages/Home'
 import PasswordStore from './pages/PasswordStore'
+import Profile from './pages/Profile'
 
 function App() {
 
@@ -13,7 +14,8 @@ function App() {
         {/* <Home /> */ }
         {/* <Documents /> */ }
         {/* <Education /> */ }
-        <PasswordStore />
+        {/* <PasswordStore /> */ }
+        <Profile />
       </div>    </>
   )
 }
