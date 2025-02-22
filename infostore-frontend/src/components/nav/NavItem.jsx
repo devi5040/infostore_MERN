@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
-function NavItem( { children, label, iconClass } ) {
+function NavItem( { label, iconClass, navPath } ) {
     return (
-        <div>
-            <h3 className='text-secondary border border-secondary px-12 py-2 cursor-pointer rounded-md hover:bg-secondary hover:text-primary duration-300'> <i className={ `bi bi-${ iconClass }` }></i> { label }</h3>
-            <ul className='my-2 ml-5 space-y-3 text-secondary transition-all duration-500 max-h-40 overflow-hidden' id='nav-items'>
-                { children }
-            </ul>
-        </div>
+        <NavLink className={ ( { isActive } ) => 'text-secondary border border-secondary px-12 py-2 cursor-pointer rounded-md hover:bg-secondary hover:text-primary duration-300' + `${ isActive ? 'bg-secondary text-primary' : 'bg-primary text-secondary' }` } to={ navPath }> <i className={ `bi bi-${ iconClass }` }></i> { label }</NavLink>
     )
 }
 

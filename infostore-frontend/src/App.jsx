@@ -1,22 +1,56 @@
-import Header from './components/Header'
-import Documents from './pages/Documents'
-import Education from './pages/Education'
-import Home from './pages/Home'
-import PasswordStore from './pages/PasswordStore'
-import Profile from './pages/Profile'
+import { Provider } from 'react-redux'
+import store from './store'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ChangePassword, ForgotPassword, Login, Signup } from './components/auth'
+import { Home, Documents, Education, PasswordStore, Profile, RootLayout } from './pages'
 
 function App() {
-
+  const router = createBrowserRouter( [{
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      {
+        path: '',
+        element: <Home />
+      },
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <Signup />
+      },
+      {
+        path: 'forgot-password',
+        element: <ForgotPassword />
+      },
+      {
+        path: 'change-password',
+        element: <ChangePassword />
+      },
+      {
+        path: 'documents',
+        element: <Documents />
+      },
+      {
+        path: 'education',
+        element: <Education />
+      },
+      {
+        path: 'password-store',
+        element: <PasswordStore />
+      },
+      {
+        path: 'profile',
+        element: <Profile />
+      }
+    ]
+  }] )
   return (
-    <>
-      <Header />
-      <div className='absolute top-30 left-100 m-10 w-[65%]'>
-        {/* <Home /> */ }
-        {/* <Documents /> */ }
-        {/* <Education /> */ }
-        {/* <PasswordStore /> */ }
-        <Profile />
-      </div>    </>
+    <Provider store={ store }>
+      <RouterProvider router={ router } />
+    </Provider>
   )
 }
 
