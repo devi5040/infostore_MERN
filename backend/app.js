@@ -11,6 +11,7 @@ const profileRoutes = require ('./routes/profile');
 const documentRoutes = require ('./routes/documents');
 const educationRoutes = require ('./routes/education');
 const passwordStoreRoutes = require ('./routes/passwordstore');
+const homeInfoRoutes = require ('./routes/homeInfo');
 
 //Initialize app
 const app = express ();
@@ -36,6 +37,7 @@ app.use ('/profile', profileRoutes);
 app.use ('/documents', documentRoutes);
 app.use ('/education', educationRoutes);
 app.use ('/password', passwordStoreRoutes);
+app.use ('/home-info', homeInfoRoutes);
 
 mongoose
   .connect (process.env.MONGO_URI)
