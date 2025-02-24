@@ -1,5 +1,6 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk, isRejectedWithValue} from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const BASE_URL = 'http://localhost:8080/auth';
 
@@ -13,11 +14,22 @@ export const login = createAsyncThunk (
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials:true
       });
       return response?.data;
     } catch (error) {
-      console.log (error.response?.status);
-      console.log (error.response?.data?.message);
+      toast.error(error.response?.data?.message);
+      return isRejectedWithValue(error.response?.data?.message)
     }
   }
 );
+
+export const logout = createAsyncThunk('auth/logout',async()=>{
+  const URL = BASE_URL+'/logout'
+  try {
+    const response = await axios.post(URL,{},{withCredentials:true});
+    return response.data;
+  } catch (error) {
+    console.log('Error:',error)
+  }
+})

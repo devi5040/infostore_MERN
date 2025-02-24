@@ -2,6 +2,7 @@ const express = require ('express');
 const router = express.Router ();
 const authController = require ('../controller/auth');
 const {body} = require ('express-validator');
+const isAuth = require ('../middleware/authenticationMiddleware');
 
 //Route for register
 router.post (
@@ -82,5 +83,7 @@ router.post (
   ],
   authController.changePassword
 );
+
+router.post ('/logout', isAuth, authController.logout);
 
 module.exports = router;

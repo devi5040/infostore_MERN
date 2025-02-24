@@ -205,3 +205,18 @@ exports.changePassword = async (req, res, next) => {
     res.status (500).json ({message: 'Some internal error has been occured'});
   }
 };
+
+exports.logout = async (req, res) => {
+  try {
+    res
+      .status (200)
+      .clearCookie ('token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+      })
+      .json ({message: 'Logged out Successfully'});
+  } catch (error) {
+    res.status (500).json ({message: 'Some error occured'});
+  }
+};

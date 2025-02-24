@@ -5,3 +5,21 @@
     --color-secondary : #0504aa;
     --color-tertiary : #9A89B4
 }
+
+.fadeout{
+    animation: fadeout forwards 3s;
+    -webkit-animation: fadeout forwards 3s;
+}
+
+@keyframes fadeout {
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 0.2;
+        display: none;
+    }
+}

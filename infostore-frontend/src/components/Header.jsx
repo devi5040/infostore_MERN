@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import userIcon from '../assets/user-icon.svg'
 import NavBar from './nav/NavBar'
 import Login from './auth/Login';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../store/actions/authActions';
+import { clearAction } from '../store/slices/homeInfoSlice';
 
 function Header() {
     const [loginModalOpen, setLoginModalOpen] = useState( false );
     const isLoggedIn = useSelector( state => state.auth.isLoggedIn );
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const loginBtnClick = () => {
         setLoginModalOpen( true );
@@ -15,6 +20,19 @@ function Header() {
     const closeModal = () => {
         setLoginModalOpen( false )
     }
+
+    const logoutHandler = () => {
+        try
+        {
+            dispatch( logout() );
+            dispatch( clearAction.clearHomeInfo() )
+            navigate( '/' )
+        } catch ( error )
+        {
+            console.log( 'error', error )
+        }
+    }
+
     return (
         <>
             { loginModalOpen && <Login closeModal={ closeModal } /> }
@@ -26,7 +44,7 @@ function Header() {
                 </div>
                 <div>
                     {
-                        isLoggedIn ? <button className='w-[150px] cursor-pointer border py-2 rounded-xl text-md font-semibold bg-tertiary text-primary hover:text-tertiary hover:bg-primary hover:border-tertiary duration-300'>Logout</button> : <button className='w-[150px] cursor-pointer border py-2 rounded-xl text-md font-semibold bg-tertiary text-primary hover:text-tertiary hover:bg-primary hover:border-tertiary duration-300' onClick={ loginBtnClick }>Login</button>
+                        isLoggedIn ? <button className='w-[150px] cursor-pointer border py-2 rounded-xl text-md font-semibold bg-tertiary text-primary hover:text-tertiary hover:bg-primary hover:border-tertiary duration-300' onClick={ logoutHandler }>Logout</button> : <button className='w-[150px] cursor-pointer border py-2 rounded-xl text-md font-semibold bg-tertiary text-primary hover:text-tertiary hover:bg-primary hover:border-tertiary duration-300' onClick={ loginBtnClick }>Login</button>
                     }
                 </div>
             </header>

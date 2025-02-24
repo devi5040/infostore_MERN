@@ -5,6 +5,7 @@ import { isEmpty, isValidEmail, isValidPassword } from '../../util/validation'
 import { useDispatch } from 'react-redux'
 import { login } from '../../store/actions/authActions'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function Login( { closeModal } ) {
     const dispatch = useDispatch();
@@ -19,13 +20,13 @@ function Login( { closeModal } ) {
 
         if ( isEmpty( email ) || !isValidEmail( email ) )
         {
-            console.log( 'Inside email if' )
             errors.push( 'Please enter proper email' );
+            toast.error( 'Please enter proper email' )
         }
         if ( isEmpty( password ) || !isValidPassword( password ) )
         {
-            console.log( 'Inside password if' )
             errors.push( 'Please enter proper password, password must contain atleast 1 uppercase, 1 lowercase and 8 characters long' )
+            toast.error( 'Please enter proper password, password must contain atleast 1 uppercase, 1 lowercase and 8 characters long' )
         }
         if ( errors.length > 0 )
         {
@@ -48,11 +49,6 @@ function Login( { closeModal } ) {
                     <h3 className='my-2 text-md font-semibold'>Don't have an account? Go to <Link className="cursor-pointer" to='signup'>Signup</Link></h3>
                     <h3 className='my-2 text-md font-semibold' >Don't know your Password? Go to <Link className="cursor-pointer" to='forgot-password'>Forgot Password</Link></h3>
                 </form>
-                { formState.errors && <ul>
-                    { formState.errors.map( ( error ) => {
-                        return <li key={ error }>{ error }</li>
-                    } ) }
-                </ul> }
             </Modal>
         </Fragment>
     )
