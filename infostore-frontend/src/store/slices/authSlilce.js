@@ -8,10 +8,11 @@ const authSlice = createSlice ({
   reducers: {},
   initialState: initialState,
   extraReducers: builder => {
-    builder.addCase(login.pending,(state,action)=>{})
+    builder.addCase(login.pending,(state,action)=>{
+      
+    })
     builder.addCase (login.fulfilled, (state, action) => {
       state.message = action.payload?.message;
-      state.accessToken = action.payload?.accessToken;
       state.isLoggedIn = true;
     });
   },

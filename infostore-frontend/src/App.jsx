@@ -1,8 +1,9 @@
 import { Provider } from 'react-redux'
-import store from './store'
+import { store, persistor } from './store'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ChangePassword, ForgotPassword, Login, Signup } from './components/auth'
 import { Home, Documents, Education, PasswordStore, Profile, RootLayout } from './pages'
+import { PersistGate } from 'redux-persist/integration/react'
 
 function App() {
   const router = createBrowserRouter( [{
@@ -49,7 +50,9 @@ function App() {
   }] )
   return (
     <Provider store={ store }>
-      <RouterProvider router={ router } />
+      <PersistGate loading={ null } persistor={ persistor }>
+        <RouterProvider router={ router } />
+      </PersistGate>
     </Provider>
   )
 }

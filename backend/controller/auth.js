@@ -101,10 +101,18 @@ exports.login = async (req, res, next) => {
       {expiresIn: '1h'}
     );
 
-    res.status (200).json ({
-      message: 'User logged in successfully',
-      accessToken: token,
-    });
+    res
+      .status (200)
+      .cookie ('token', token, {
+        httpOnly: true,
+        sameSite: 'None',
+        path: '/', // Allow cookie across all routes
+        maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
+        secure: true,
+      })
+      .json ({
+        message: 'User logged in successfully',
+      });
   } catch (error) {
     res.status (500).json ({message: 'An error occured'});
   }

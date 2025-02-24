@@ -4,6 +4,7 @@ import TextInput from '../Form-input/TextInput'
 import { isEmpty, isValidEmail, isValidPassword } from '../../util/validation'
 import { useDispatch } from 'react-redux'
 import { login } from '../../store/actions/authActions'
+import { Link } from 'react-router-dom'
 
 function Login( { closeModal } ) {
     const dispatch = useDispatch();
@@ -44,8 +45,8 @@ function Login( { closeModal } ) {
                     <TextInput field='email' type='email' label='Enter your email' placeholder=' ' defaultValue={ formState.enteredValues?.email } />
                     <TextInput field='password' type='password' label='Enter your Password' placeholder=' ' />
                     <button type="submit" className='my-2 bg-secondary text-primary w-full py-2 rounded-md hover:text-secondary hover:bg-primary border border-secondary cursor-pointer'>Login</button>
-                    <h3 className='my-2 text-md font-semibold'>Don't have an account? Go to <span className="cursor-pointer">Signup</span></h3>
-                    <h3 className='my-2 text-md font-semibold' >Don't know your Password? Go to <span className="cursor-pointer">Forgot Password</span></h3>
+                    <h3 className='my-2 text-md font-semibold'>Don't have an account? Go to <Link className="cursor-pointer" to='signup'>Signup</Link></h3>
+                    <h3 className='my-2 text-md font-semibold' >Don't know your Password? Go to <Link className="cursor-pointer" to='forgot-password'>Forgot Password</Link></h3>
                 </form>
                 { formState.errors && <ul>
                     { formState.errors.map( ( error ) => {
