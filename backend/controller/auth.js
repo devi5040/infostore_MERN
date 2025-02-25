@@ -18,12 +18,22 @@ const transporter = nodemailer.createTransport ({
   },
 });
 
-async function sendEmail (email, otp = '') {
+async function sendEmail (email) {
   await transporter.sendMail ({
     from: 'Deviprasad <dpraimd@gmail.com>',
-    to: email,
+    to: 'dpraidola@gmail.com',
     subject: 'Hello world',
-    html: `<h1>Hello,</h1><p>Thank you for registering to Infostore<p><p>We welcome you to our family</p><div>For any support please contact <a href='mailto:dpraimd@gmail.com'>Support</a></div>Token for password retrieval: ${otp}
+    html: `<h1>Hello,</h1><p>Thank you for registering to Infostore<p><p>We welcome you to our family</p><div>For any support please contact <a href='mailto:dpraimd@gmail.com'>Support</a></div>Token for password retrieval: ${email}
+    OTP is valid for 10mins`,
+  });
+}
+
+async function sendOtp (email, token) {
+  await transporter.sendMail ({
+    from: 'Deviprasad <dpraimd@gmail.com>',
+    to: `${email}`,
+    subject: 'OTP',
+    html: `<h1>Hello,</h1><div>For any support please contact <a href='mailto:dpraimd@gmail.com'>Support</a></div>OTP for password retrieval: ${token}
     OTP is valid for 10mins`,
   });
 }
@@ -35,7 +45,17 @@ exports.register = async (req, res, next) => {
     return res.status (400).json ({errors: errors.array ()});
   }
 
-  const {email, name, password} = req.body;
+  const {
+    email,
+    name,
+    password,
+    mobileNumber,
+    age,
+    height,
+    weight,
+    bloodGroup,
+    address,
+  } = req.body;
 
   try {
     // Check if email already exists
@@ -50,11 +70,23 @@ exports.register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash (password, 14); // Improved cost factor
 
     // Create new user
-    const newUser = new User ({email, name, password: hashedPassword});
+    const newUser = new User ({
+      email,
+      name,
+      password: hashedPassword,
+      mobileNumber,
+      age,
+      height,
+      weight,
+      bloodGroup,
+      address,
+    });
     const result = await newUser.save ();
 
     // Send email after successful user creation
-    await sendEmail (email);
+    await sendEmail (email).catch (err => {
+      console.log ('error in send email', err);
+    });
 
     // Respond with success
     res
@@ -112,6 +144,7 @@ exports.login = async (req, res, next) => {
       })
       .json ({
         message: 'User logged in successfully',
+        expireTime: Date.now () + 60 * 60 * 1000,
       });
   } catch (error) {
     res.status (500).json ({message: 'An error occured'});
@@ -137,9 +170,10 @@ exports.getAccessOtp = async (req, res, next) => {
     user.resetToken = token;
     user.tokenExpiration = expirationTime;
     await user.save ();
-    await sendEmail (email, token);
+    await sendOtp (email, token);
     res.status (200).json ({message: 'Mail sent to the user with OTP'});
   } catch (error) {
+    console.log ('Error:::', error);
     res.status (500).json ({message: 'Some error occured'});
   }
 };
@@ -159,18 +193,18 @@ exports.verifyOtp = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User not found'});
     }
-    if (user._id.toString () !== req.userId.toString ()) {
-      return res.status (403).json ({message: 'User not authorized'});
-    }
     const userOtp = user.resetToken;
     const expirationTime = user.tokenExpiration;
     if (otp !== userOtp || expirationTime <= Date.now ()) {
+      console.log (otp, ':OTP   ', userOtp, ':USER OTP');
+      console.log ('EXP TIME', expirationTime);
       return res.status (401).json ({message: 'Invalid otp'});
     }
     user.resetToken = undefined;
     await user.save ();
     res.status (200).json ({message: 'Otp has been verified'});
   } catch (error) {
+    console.log (error);
     res.status (500).json ({message: 'Some internal error has been occured'});
   }
 };

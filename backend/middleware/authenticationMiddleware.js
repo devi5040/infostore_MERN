@@ -4,8 +4,9 @@ module.exports = async (req, res, next) => {
   console.log ('token', req.cookies);
   const token = req.cookies.token;
   if (!token) {
-    console.log ('inside not token');
-    return res.status (401).json ({message: 'Authentication failed'});
+    return res
+      .status (401)
+      .json ({message: 'Authentication failed token not present'});
   }
   try {
     const decodedToken = jwt.verify (token, process.env.JWT_SECRET);

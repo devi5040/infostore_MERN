@@ -1,5 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
 const BASE_URL = 'http://localhost:8080/home-info';
 
@@ -12,7 +13,8 @@ export const fetchDocumentCount = createAsyncThunk (
       const response = await axios.get (URL, {withCredentials: true});
       return response.data;
     } catch (error) {
-      console.log ('Error', error);
+      console.log (error.response.data);
+      toast.error ('Some error occured while fetching document count');
     }
   }
 );
@@ -27,7 +29,7 @@ export const fetchPasswordCount = createAsyncThunk (
       });
       return response.data;
     } catch (error) {
-      console.log ('Error:', error);
+      toast.error ('Some error occured while fetching password count');
     }
   }
 );
@@ -42,7 +44,8 @@ export const fetchProfileCompletion = createAsyncThunk (
       });
       return response.data;
     } catch (error) {
-      console.log ('error:', error);
+      console.log (error.response.data);
+      toast.error ('Some error occured while fetching profile completed count');
     }
   }
 );

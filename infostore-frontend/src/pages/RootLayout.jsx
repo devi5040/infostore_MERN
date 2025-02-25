@@ -1,10 +1,20 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, use, useDebugValue } from 'react'
 import Header from '../components/Header'
 import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/ReactToastify.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../store/actions/authActions'
+import { clearAction } from '../store/slices/homeInfoSlice'
 
 function RootLayout() {
+    const expireTime = useSelector( state => state.auth.expireTime );
+    const dispatch = useDispatch();
+    if ( Date.now() >= expireTime && expireTime !== null )
+    {
+        dispatch( clearAction.clearHomeInfo() )
+        dispatch( logout() )
+    }
     return (
         <Fragment>
             <ToastContainer position='top-right' autoClose={ 2000 } />

@@ -84,6 +84,6 @@ router.post (
   authController.changePassword
 );
 
-router.post ('/logout', isAuth, authController.logout);
+router.post ('/logout', authController.logout);
 
 module.exports = router;

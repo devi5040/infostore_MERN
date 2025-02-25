@@ -11,9 +11,11 @@ exports.getProfileCompletion = async (req, res) => {
     );
     let count = 0;
     const TOTAL_COUNT = 9;
-    for (const key in user) {
-      if (user[key] == '-') count++;
-    }
+    Object.entries (user._doc).forEach (([key, value]) => {
+      if ((value && value !== '-') || value != '') {
+        count++;
+      }
+    });
     const profileCompleted = 100 - count / TOTAL_COUNT * 100;
     res.status (200).json ({
       message: 'Fetched the profile successfully',

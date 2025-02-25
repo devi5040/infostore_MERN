@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {login, logout} from '../actions/authActions';
+import {login, logout, receiveOtp, register} from '../actions/authActions';
 import { toast } from 'react-toastify';
 
-const initialState = {message: undefined, accessToken: undefined, isLoggedIn:false, status:'idle'};
+const initialState = {message: undefined, accessToken: undefined, isLoggedIn:false, status:'idle',expireTime:null};
 
 const authSlice = createSlice ({
   name: 'auth',
@@ -17,6 +17,7 @@ const authSlice = createSlice ({
         state.message = action.payload?.message;
       state.isLoggedIn = true;
       state.status='success'
+      state.expireTime = action.payload?.expireTime
       toast.success(action.payload?.message)
       }
     });
@@ -33,6 +34,21 @@ const authSlice = createSlice ({
     })
     builder.addCase(logout.rejected,(state,action)=>{
       toast.error('Some error occured');
+    })
+    builder.addCase(register.fulfilled,(state,action)=>{
+      toast.success(action.payload?.message)
+    })
+    builder.addCase(register.pending,(state,action)=>{
+      toast.info('Signing up...')
+    })
+    builder.addCase(register.rejected,(state,action)=>{
+      toast.error('Some error occured')
+    })
+    builder.addCase(receiveOtp.fulfilled,(state,action)=>{
+      toast.success('OTP sent successfully')
+    })
+    builder.addCase(receiveOtp.rejected,(state,action)=>{
+      toast.success('OTP sent successfully')
     })
   },
 });
