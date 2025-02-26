@@ -2,6 +2,8 @@ const User = require ('../models/user');
 const Education = require ('../models/education');
 
 exports.getEducation = async (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = 3;
   const userId = req.userId;
   try {
     const user = await User.findById (userId);
@@ -11,7 +13,10 @@ exports.getEducation = async (req, res, next) => {
     if (user._id.toString () !== userId.toString ()) {
       return res.status (403).json ({message: 'User not authorized'});
     }
-    const educationDetails = await Education.find ({userId: userId});
+    const educationDetails = await Education.find ({userId: userId})
+      .skip ((currentPage - 1) * perPage)
+      .limit (perPage);
+    const count = await Education.find ({userId: userId}).countDocuments ();
     if (!educationDetails) {
       return res
         .status (404)
@@ -20,6 +25,7 @@ exports.getEducation = async (req, res, next) => {
     res.status (200).json ({
       message: 'Details fetched successfully',
       educationDetails: educationDetails,
+      educationCount: count,
     });
   } catch (error) {
     console.log (error);
@@ -53,6 +59,7 @@ exports.addEducationDetails = async (req, res, next) => {
       educationData: educationData,
     });
   } catch (error) {
+    console.log (error);
     res.status (500).json ({
       message: 'Some internal error occured',
     });

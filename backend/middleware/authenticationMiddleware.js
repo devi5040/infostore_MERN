@@ -1,7 +1,6 @@
 const jwt = require ('jsonwebtoken');
 
 module.exports = async (req, res, next) => {
-  console.log ('token', req.cookies);
   const token = req.cookies.token;
   if (!token) {
     return res
@@ -10,11 +9,9 @@ module.exports = async (req, res, next) => {
   }
   try {
     const decodedToken = jwt.verify (token, process.env.JWT_SECRET);
-    console.log (decodedToken);
     req.userId = decodedToken.userId;
     next ();
   } catch (error) {
-    console.log ('error', error);
     return res.status (401).json ({message: 'Authentication failed'});
   }
   // const authHeader = req.get ('Authorization');

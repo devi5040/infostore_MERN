@@ -1,6 +1,7 @@
 import {createAsyncThunk, isRejectedWithValue} from '@reduxjs/toolkit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { persistor } from '..';
 
 const BASE_URL = 'http://localhost:8080/auth';
 

@@ -1,21 +1,30 @@
 import React, { Fragment, useState } from 'react'
 import Button from '../Button/Button';
 import EditEducation from '../education/EditEducation';
+import { useDispatch } from 'react-redux';
+import { deleteEducation, getEducation } from '../../store/actions/educatioActions';
 
 function EducationCard( { education } ) {
     const [isEditing, setIsEditing] = useState( false );
+    const dispatch = useDispatch()
 
     const editButtonHandler = () => {
         setIsEditing( true );
     }
 
     const closeModal = () => {
-        setIsEditing( false )
+        setIsEditing( false );
+        dispatch( getEducation() )
+    }
+
+    const deleteHandler = async () => {
+        await dispatch( deleteEducation( education._id ) )
+        dispatch( getEducation() )
     }
 
     return (
         <Fragment>
-            { isEditing && <EditEducation closeModalHandler={ closeModal } /> }
+            { isEditing && <EditEducation closeModalHandler={ closeModal } educationId={ education._id } /> }
             <div className='border border-gray-300 shadow-md rounded-md p-10 text-secondary'>
                 <h2 className='text-center font-bold text-xl'>{ education.education }</h2>
                 <div className='flex flex-col space-y-2'>
@@ -36,8 +45,8 @@ function EducationCard( { education } ) {
                         <p className='mx-2'>{ education.otherDetails }</p>
                     </div>
                     <div className='flex justify-between'>
-                        <Button onClickButton={ editButtonHandler }>Edit</Button>
-                        <button className='bg-red-500 text-primary w-[75px] py-1 rounded-md my-2 cursor-pointer border border-red-500 hover:bg-primary hover:text-red-500 duration-300'>Delete</button>
+                        <Button onClickButton={ editButtonHandler } >Edit</Button>
+                        <button className='bg-red-500 text-primary w-[75px] py-1 rounded-md my-2 cursor-pointer border border-red-500 hover:bg-primary hover:text-red-500 duration-300' onClick={ deleteHandler }>Delete</button>
                     </div>
                 </div>
             </div>

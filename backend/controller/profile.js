@@ -56,7 +56,9 @@ exports.editProfile = async (req, res, next) => {
     existingUser.age = age;
     existingUser.height = height;
     existingUser.weight = weight;
-    existingUser.profileImage = profileImage;
+    if (profileImage) {
+      existingUser.profileImage = profileImage;
+    }
 
     const userData = await existingUser.save ();
 

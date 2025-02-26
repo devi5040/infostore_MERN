@@ -1,13 +1,19 @@
 import React, { Fragment } from 'react'
 import Button from '../Button/Button'
+import { useDispatch } from 'react-redux';
 
-function Paginator( { children, onChangePage, currentPage, lastPage } ) {
+function Paginator( { children, onChangePage, currentPage, lastPage, dispatchAction } ) {
+    const dispatch = useDispatch()
     const nextButtonClickHandler = () => {
-        onChangePage( currentPage => currentPage + 1 );
+        const newPage = currentPage + 1;
+        onChangePage( newPage );
+        dispatch( dispatchAction( newPage ) )
     }
 
     const prevButtonClickHandler = () => {
-        onChangePage( currentPage => currentPage - 1 )
+        const newPage = currentPage - 1;
+        onChangePage( newPage );
+        dispatch( dispatchAction( newPage ) )
     }
 
     return (

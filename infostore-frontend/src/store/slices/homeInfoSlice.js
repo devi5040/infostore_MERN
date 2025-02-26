@@ -14,13 +14,7 @@ const initialState = {
 
 const homeInfoSlice = createSlice ({
   name: 'homeInfo',
-  reducers: {
-    clearHomeInfo: (state, action) => {
-      state.numberOfDocuments = initialState.numberOfDocuments;
-      state.passwordCount = initialState.passwordCount;
-      state.profileCompleted = initialState.profileCompleted;
-    },
-  },
+  reducers: {},
   initialState: initialState,
   extraReducers: builder => {
     builder.addCase (fetchDocumentCount.fulfilled, (state, action) => {
@@ -52,6 +46,4 @@ const homeInfoSlice = createSlice ({
     });
   },
 });
-
-export const clearAction = homeInfoSlice.actions;
 export default homeInfoSlice;

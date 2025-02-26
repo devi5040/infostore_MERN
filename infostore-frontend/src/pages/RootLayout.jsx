@@ -5,14 +5,12 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/ReactToastify.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/actions/authActions'
-import { clearAction } from '../store/slices/homeInfoSlice'
 
 function RootLayout() {
     const expireTime = useSelector( state => state.auth.expireTime );
     const dispatch = useDispatch();
     if ( Date.now() >= expireTime && expireTime !== null )
     {
-        dispatch( clearAction.clearHomeInfo() )
         dispatch( logout() )
     }
     return (

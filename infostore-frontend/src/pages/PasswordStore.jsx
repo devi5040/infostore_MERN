@@ -1,38 +1,28 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import AddItemButton from '../components/Button/AddItemButton';
 import AddPassword from '../components/password/AddPassword';
 import Paginator from '../components/Paginator/Paginator';
 import PasswordCard from '../components/ItemCard/PasswordCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPasswordStore } from '../store/actions/passwordStoreActions';
 
-let TOTAL_PASSWORDS = 0;
 const ITEMS_PER_PAGE = 3;
 
 function PasswordStore() {
     const [addPassword, setAddPassword] = useState( false );
     const [currentPage, setCurrentPage] = useState( 1 );
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector( state => state.auth.isLoggedIn );
+    const passwordData = useSelector( state => state.passwordStore.passwordStore );
+    const TOTAL_PASSWORDS = useSelector( state => state.passwordStore.count );
 
-    TOTAL_PASSWORDS = 4;
+    useEffect( () => {
+        if ( isLoggedIn )
+        {
+            dispatch( getPasswordStore( currentPage ) )
+        }
+    }, [dispatch, isLoggedIn] )
 
-    const passwordData = [
-        {
-            _id: '67a0e3a8e6448dc418c578ba',
-            username: '-',
-            platform: 'https://github.com/',
-            email: 'devi@gmail.com',
-            password: 'Devu4563',
-            userId: '679a64dcb2440f3edcfc21fe',
-            __v: 0,
-        },
-        {
-            _id: '67a0e4aee9419cdc1bcf0f8e',
-            platform: 'https://github.com/',
-            username: '-',
-            email: 'devi@gmail.com',
-            password: 'Devu0063',
-            userId: '679a64dcb2440f3edcfc21fe',
-            __v: 0,
-        },
-    ];
 
     const passwordAddHandler = () => {
         setAddPassword( false );

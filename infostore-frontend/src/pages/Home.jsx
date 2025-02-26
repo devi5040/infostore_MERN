@@ -18,7 +18,7 @@ function Home() {
             dispatch( fetchPasswordCount() );
             dispatch( fetchProfileCompletion() )
         }
-    }, [isLoggedIn] )
+    }, [dispatch, isLoggedIn] )
     return (
         <Fragment>
             <div className="grid grid-cols-3 gap-10 text-secondary">

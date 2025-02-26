@@ -5,10 +5,12 @@ import { isEmpty, isValidEmail } from '../../util/validation';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { receiveOtp, verifyOtp } from '../../store/actions/authActions';
+import { useNavigate } from 'react-router-dom'
 
 let userEmail;
 
 function ForgotPassword( { closeModal } ) {
+    const navigate = useNavigate();
     const [isOtpSent, setIsOtpSent] = useState( false );
     const dispatch = useDispatch()
 
@@ -30,9 +32,10 @@ function ForgotPassword( { closeModal } ) {
         setIsOtpSent( true );
     }
 
-    const otpVerificationAction = ( prevFormState, formData ) => {
+    const otpVerificationAction = async ( prevFormState, formData ) => {
         const otp = formData.get( 'otp' ).trim();
-        dispatch( verifyOtp( { userEmail, otp } ) )
+        await dispatch( verifyOtp( { userEmail, otp } ) );
+        navigate( '/change-password' )
     }
 
     const [otpSendFormState, otpSendFormAction] = useActionState( otpHandlingAction, { errors: null } );

@@ -3,6 +3,8 @@ const PasswordStore = require ('../models/passwordtore');
 const {validationResult} = require ('express-validator');
 
 exports.getPasswordStore = async (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = 3;
   const userId = req.userId;
   try {
     const user = await User.findById (userId);
@@ -12,11 +14,16 @@ exports.getPasswordStore = async (req, res, next) => {
     if (user._id.toString () !== userId.toString ()) {
       return res.status (403).json ({message: 'User not authorized'});
     }
-    const data = await PasswordStore.find ({userId: userId});
+    const data = await PasswordStore.find ({userId: userId})
+      .skip ((currentPage - 1) * 3)
+      .limit (perPage);
+    const count = await PasswordStore.find ({userId: userId}).countDocuments ();
     if (!data) {
       return res.status (404).json ({message: 'Data does not exists'});
     }
-    res.status (200).json ({message: 'Data fetched successfully', data: data});
+    res
+      .status (200)
+      .json ({message: 'Data fetched successfully', data: data, count: count});
   } catch (error) {
     res.status (500).json ({message: 'Some error occured'});
   }

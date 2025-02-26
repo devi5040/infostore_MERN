@@ -3,6 +3,8 @@ const User = require ('../models/user');
 const removeImageFromS3 = require ('../util/removeImage');
 
 exports.getDocuments = async (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = 3;
   const userId = req.userId;
   try {
     const user = await User.findById (userId);
@@ -12,13 +14,18 @@ exports.getDocuments = async (req, res, next) => {
     // if (user._id.toString () !== userId.toString ()) {
     //   return res.status (403).json ({message: 'User not authorized'});
     // }
-    const documents = await Documents.find ({userId: userId});
+    const documents = await Documents.find ({userId: userId})
+      .skip ((currentPage - 1) * perPage)
+      .limit (perPage);
+    const count = await Documents.find ({userId: userId}).countDocuments ();
     if (!documents) {
       return res.status (404).json ({message: 'Documents does not found'});
     }
-    res
-      .status (200)
-      .json ({message: 'Documents fetched successfully', documents: documents});
+    res.status (200).json ({
+      message: 'Documents fetched successfully',
+      documents: documents,
+      documentsCount: count,
+    });
   } catch (error) {
     res.status (500).json ({message: 'An Internal error occured'});
   }

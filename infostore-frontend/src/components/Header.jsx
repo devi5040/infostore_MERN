@@ -5,7 +5,6 @@ import Login from './auth/Login';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../store/actions/authActions';
-import { clearAction } from '../store/slices/homeInfoSlice';
 
 function Header() {
     const [loginModalOpen, setLoginModalOpen] = useState( false );
@@ -25,7 +24,6 @@ function Header() {
         try
         {
             dispatch( logout() );
-            dispatch( clearAction.clearHomeInfo() )
             navigate( '/' )
         } catch ( error )
         {
