@@ -3,14 +3,15 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/profile';
 
-export const getProfile = createAsyncThunk ('profile/getProfile', async () => {
+export const getProfile = createAsyncThunk ('profile/getProfile', async ({},{rejectWithValue}) => {
   const URL = BASE_URL + '/get-profile';
   try {
     const response = await axios.get (URL, {withCredentials: true});
-    console.log ('response:', response.data);
     return response.data;
   } catch (error) {
-    console.log ('Error:', error);
+    const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
   }
 });
 
@@ -25,7 +26,7 @@ export const editProfile = createAsyncThunk (
     file,
     address,
     bloodGroup,
-  }) => {
+  },{rejectWithValue}) => {
     const URL = BASE_URL + '/edit-profile';
     try {
       const response = await axios.post (
@@ -47,10 +48,11 @@ export const editProfile = createAsyncThunk (
           },
         }
       );
-      console.log (response.data);
       return response.data;
     } catch (error) {
-      console.log ('Error editing profile:', error);
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );

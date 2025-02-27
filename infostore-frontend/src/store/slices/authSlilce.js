@@ -22,33 +22,27 @@ const authSlice = createSlice ({
       }
     });
     builder.addCase(login.rejected,(state,action)=>{
-      toast.error(action.payload);
+      toast.error(action?.payload?.message);
     });
     builder.addCase(logout.fulfilled,(state,action)=>{
       state.message = action.payload?.message;
       state.isLoggedIn=false;
       toast.warning(action.payload?.message)
     });
-    builder.addCase(logout.pending,(state,action)=>{
-      toast.info('Logging out...')
-    })
     builder.addCase(logout.rejected,(state,action)=>{
-      toast.error('Some error occured');
+      toast.error(action?.payload?.message);
     })
     builder.addCase(register.fulfilled,(state,action)=>{
       toast.success(action.payload?.message)
     })
-    builder.addCase(register.pending,(state,action)=>{
-      toast.info('Signing up...')
-    })
     builder.addCase(register.rejected,(state,action)=>{
-      toast.error('Some error occured')
+      toast.error(action?.payload?.message)
     })
     builder.addCase(receiveOtp.fulfilled,(state,action)=>{
       toast.success('OTP sent successfully')
     })
     builder.addCase(receiveOtp.rejected,(state,action)=>{
-      toast.success('OTP sent successfully')
+      toast.success(action?.payload?.message)
     })
   },
 });

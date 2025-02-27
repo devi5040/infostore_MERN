@@ -24,7 +24,7 @@ const homeInfoSlice = createSlice ({
       }
     });
     builder.addCase (fetchDocumentCount.rejected, (state, action) => {
-      toast.error ('Some error occured in fetching document count');
+      toast.error (action?.payload?.message);
     });
     builder.addCase (fetchPasswordCount.fulfilled, (state, action) => {
       if (action.payload) {
@@ -33,7 +33,7 @@ const homeInfoSlice = createSlice ({
       }
     });
     builder.addCase (fetchPasswordCount.rejected, (state, action) => {
-      toast.error ('Some error occured in fetching password count');
+      toast.error (action?.payload?.message);
     });
     builder.addCase (fetchProfileCompletion.fulfilled, (state, action) => {
       if (action.payload) {
@@ -42,7 +42,7 @@ const homeInfoSlice = createSlice ({
       }
     });
     builder.addCase (fetchProfileCompletion.rejected, (state, action) => {
-      toast.error ('Some error occured in fetching profile details');
+      toast.error (action?.payload?.message);
     });
   },
 });

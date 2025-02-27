@@ -24,7 +24,6 @@ function ForgotPassword( { closeModal } ) {
         }
         if ( errors.length > 0 )
         {
-            console.log( 'errors' )
             return { enteredValue: { email } };
         }
         userEmail = email;

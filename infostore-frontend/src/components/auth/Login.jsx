@@ -13,7 +13,6 @@ function Login( { closeModal } ) {
     const loginFormHandle = ( prevFormState, formData ) => {
         const email = formData.get( 'email' );
         const password = formData.get( 'password' );
-        console.log( `the email is ${ email } and password is ${ password }` )
 
         //errors array to get validation errors
         const errors = []

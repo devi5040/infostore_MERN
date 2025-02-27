@@ -28,7 +28,6 @@ exports.getEducation = async (req, res, next) => {
       educationCount: count,
     });
   } catch (error) {
-    console.log (error);
     res.status (500).json ({
       message: 'Some internal error occured',
     });
@@ -59,7 +58,6 @@ exports.addEducationDetails = async (req, res, next) => {
       educationData: educationData,
     });
   } catch (error) {
-    console.log (error);
     res.status (500).json ({
       message: 'Some internal error occured',
     });

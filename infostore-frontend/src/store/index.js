@@ -7,6 +7,7 @@ import profileSlice from './slices/profileSlice';
 import documentsSlice from './slices/documentsSlice';
 import educationSlice from './slices/educationSlice';
 import passwordSlice from './slices/passwordStoreSlice';
+import errorSlice from './slices/errorSlice';
 
 const persistConfig = {
   key: 'root',
@@ -20,6 +21,7 @@ const appReducer = combineReducers ({
   documents: documentsSlice.reducer,
   education: educationSlice.reducer,
   passwordStore: passwordSlice.reducer,
+  error: errorSlice.reducer,
 });
 
 const rootReducer = (state, action) => {

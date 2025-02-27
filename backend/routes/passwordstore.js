@@ -44,4 +44,10 @@ router.put (
   passwordStoreController.editPasswords
 );
 
+router.delete (
+  '/password-store/:passwordId',
+  isAuth,
+  passwordStoreController.deletePassword
+);
+
 module.exports = router;

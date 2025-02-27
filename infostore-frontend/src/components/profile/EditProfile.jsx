@@ -7,7 +7,7 @@ import FileInput from '../Form-input/FileInput'
 import { isEmpty, isValidAge, isValidHeightWeight, isValidMobileNumber, isValidName } from '../../util/validation'
 import { toast } from 'react-toastify'
 import { editProfile } from '../../store/actions/profileAction'
-import { useNavigate } from 'react-router-dom'
+
 
 function EditProfile( { closeModal } ) {
     const profileValues = useSelector( state => state.profile.profileDetails );
@@ -51,7 +51,6 @@ function EditProfile( { closeModal } ) {
         }
         if ( errors.length > 0 )
         {
-            errors.map( ( error ) => console.log( error ) )
             return;
         }
         await dispatch( editProfile( { name, mobileNumber, height, weight, age, address, file, bloodGroup } ) );

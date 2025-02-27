@@ -5,9 +5,11 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/ReactToastify.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/actions/authActions'
+import Error from './Error'
 
 function RootLayout() {
-    const expireTime = useSelector( state => state.auth.expireTime );
+    const error = useSelector( state => state.error )
+    const expireTime = useSelector( state => state.auth.expireTime ) || 0;
     const dispatch = useDispatch();
     if ( Date.now() >= expireTime && expireTime !== null )
     {
@@ -15,11 +17,12 @@ function RootLayout() {
     }
     return (
         <Fragment>
-            <ToastContainer position='top-right' autoClose={ 2000 } />
-            <Header />
-            <div className='absolute top-30 left-100 m-10 w-[65%]'>
-                <Outlet />
-            </div>
+            { error && <Error /> }
+            { !error && <><ToastContainer position='top-right' autoClose={ 2000 } />
+                <Header />
+                <div className='absolute top-30 left-100 m-10 w-[65%]'>
+                    <Outlet />
+                </div></> }
         </Fragment>
     )
 }

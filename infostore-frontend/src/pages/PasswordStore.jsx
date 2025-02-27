@@ -26,6 +26,7 @@ function PasswordStore() {
 
     const passwordAddHandler = () => {
         setAddPassword( false );
+        dispatch( getPasswordStore( currentPage ) )
     };
 
     return (
@@ -36,6 +37,7 @@ function PasswordStore() {
                 currentPage={ currentPage }
                 onChangePage={ setCurrentPage }
                 lastPage={ Math.ceil( TOTAL_PASSWORDS / ITEMS_PER_PAGE ) }
+                dispatchAction={ getPasswordStore }
             >
                 { passwordData.map( ( password ) => {
                     return <PasswordCard key={ password._id } passwordData={ password } />

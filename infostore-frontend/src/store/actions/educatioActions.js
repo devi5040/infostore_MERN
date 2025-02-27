@@ -4,20 +4,22 @@ const BASE_URL = 'http://localhost:8080/education';
 
 export const getEducation = createAsyncThunk (
   'education/getEducation',
-  async pageNumber => {
+  async (pageNumber,{rejectWithValue}) => {
     const URL = BASE_URL + `/get-education?page=${pageNumber}`;
     try {
       const response = await axios.get (URL, {withCredentials: true});
       return response.data;
     } catch (error) {
-      console.log ('Error', error);
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );
 
 export const addEducation = createAsyncThunk (
   'education/addDocument',
-  async ({level, institute, marks, achievements, otherDetails}) => {
+  async ({level, institute, marks, achievements, otherDetails},{rejectWithValue}) => {
     const URL = BASE_URL + '/add-education';
     try {
       const response = await axios.post (
@@ -27,7 +29,9 @@ export const addEducation = createAsyncThunk (
       );
       return response.data;
     } catch (error) {
-      console.log ('Error:', error);
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );
@@ -41,7 +45,7 @@ export const editEducation = createAsyncThunk (
     marks,
     achievements,
     otherDetails,
-  }) => {
+  },{rejectWithValue}) => {
     const URL = BASE_URL + '/edit-education';
     try {
       const response = await axios.post (
@@ -56,23 +60,26 @@ export const editEducation = createAsyncThunk (
         },
         {withCredentials: true}
       );
-      console.log (response.data);
       return response.data;
     } catch (error) {
-      console.log ('Error:::', error);
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );
 
 export const deleteEducation = createAsyncThunk (
   'education/deleteEducation',
-  async educationId => {
+  async (educationId,{rejectWithValue}) => {
     const URL = BASE_URL + `/delete-education/${educationId}`;
     try {
       const response = await axios.delete (URL, {withCredentials: true});
       return response.data;
     } catch (error) {
-      console.log (error);
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );

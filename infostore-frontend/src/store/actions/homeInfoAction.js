@@ -6,22 +6,23 @@ const BASE_URL = 'http://localhost:8080/home-info';
 
 export const fetchDocumentCount = createAsyncThunk (
   'homeInfo/fetchDocumentCount',
-  async () => {
+  async ({}, {rejectWithValue}) => {
     console.log ('inside fetch documents');
     const URL = BASE_URL + '/documents-number';
     try {
       const response = await axios.get (URL, {withCredentials: true});
       return response.data;
     } catch (error) {
-      console.log (error.response.data);
-      toast.error ('Some error occured while fetching document count');
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );
 
 export const fetchPasswordCount = createAsyncThunk (
   'homeInfo/fetchPasswordCount',
-  async () => {
+  async ({},{rejectWithValue}) => {
     const URL = BASE_URL + '/passwords-number';
     try {
       const response = await axios.get (URL, {
@@ -29,14 +30,16 @@ export const fetchPasswordCount = createAsyncThunk (
       });
       return response.data;
     } catch (error) {
-      toast.error ('Some error occured while fetching password count');
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );
 
 export const fetchProfileCompletion = createAsyncThunk (
   'homeInfo/fetchProfileCompletion',
-  async () => {
+  async ({},{rejectWithValue}) => {
     const URL = BASE_URL + '/profile-completion';
     try {
       const response = await axios.get (URL, {
@@ -44,8 +47,9 @@ export const fetchProfileCompletion = createAsyncThunk (
       });
       return response.data;
     } catch (error) {
-      console.log (error.response.data);
-      toast.error ('Some error occured while fetching profile completed count');
+      const errorMessage = error?.response?.data?.message||'Some error has been occured'
+      const statusCode = error?.response?.data?.status||500
+      return rejectWithValue({message:errorMessage,status:statusCode})
     }
   }
 );

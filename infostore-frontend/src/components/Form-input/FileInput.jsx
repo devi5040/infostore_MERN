@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { convertImageUrlToBase64, convertToBase64 } from '../../util/images'
+import { convertToBase64 } from '../../util/images'
 
 function FileInput( { label, imageUrl } ) {
     const [base64, setBase64] = useState( null );

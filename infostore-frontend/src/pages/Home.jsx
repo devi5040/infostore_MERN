@@ -9,7 +9,6 @@ function Home() {
     const passwordCount = useSelector( state => state.homeInfo.passwordCount );
     const profileCompletionPercentage = useSelector( state => state.homeInfo.profileCompleted );
     const dispatch = useDispatch();
-    console.log( `isLogged In: ${ isLoggedIn }    documentCount:${ documentCount }  passwordCount:${ documentCount } profileCompletionPercentage:${ profileCompletionPercentage }` )
 
     useEffect( () => {
         if ( isLoggedIn )

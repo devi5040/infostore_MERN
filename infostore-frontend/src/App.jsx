@@ -2,13 +2,15 @@ import { Provider } from 'react-redux'
 import { store, persistor } from './store'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ChangePassword, ForgotPassword, Login, Signup } from './components/auth'
-import { Home, Documents, Education, PasswordStore, Profile, RootLayout } from './pages'
+import { Home, Documents, Education, PasswordStore, Profile, RootLayout, ErrorPage } from './pages'
 import { PersistGate } from 'redux-persist/integration/react'
+
 
 function App() {
   const router = createBrowserRouter( [{
     path: '/',
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '',

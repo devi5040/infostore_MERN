@@ -173,7 +173,6 @@ exports.getAccessOtp = async (req, res, next) => {
     await sendOtp (email, token);
     res.status (200).json ({message: 'Mail sent to the user with OTP'});
   } catch (error) {
-    console.log ('Error:::', error);
     res.status (500).json ({message: 'Some error occured'});
   }
 };
@@ -196,15 +195,12 @@ exports.verifyOtp = async (req, res, next) => {
     const userOtp = user.resetToken;
     const expirationTime = user.tokenExpiration;
     if (otp !== userOtp || expirationTime <= Date.now ()) {
-      console.log (otp, ':OTP   ', userOtp, ':USER OTP');
-      console.log ('EXP TIME', expirationTime);
       return res.status (401).json ({message: 'Invalid otp'});
     }
     user.resetToken = undefined;
     await user.save ();
     res.status (200).json ({message: 'Otp has been verified'});
   } catch (error) {
-    console.log (error);
     res.status (500).json ({message: 'Some internal error has been occured'});
   }
 };

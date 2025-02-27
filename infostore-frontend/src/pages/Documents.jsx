@@ -14,8 +14,6 @@ function Documents() {
     const [currentPage, setCurrentPage] = useState( 1 );
     const documents = useSelector( state => state.documents.documents );
     const TOTAL_DOCUMENTS = useSelector( state => state.documents.documentCount )
-    console.log( documents );
-    console.log( isLoggedIn )
     const dispatch = useDispatch();
     useEffect( () => {
         if ( isLoggedIn )

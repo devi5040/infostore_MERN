@@ -11,9 +11,6 @@ exports.getDocuments = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User does not found'});
     }
-    // if (user._id.toString () !== userId.toString ()) {
-    //   return res.status (403).json ({message: 'User not authorized'});
-    // }
     const documents = await Documents.find ({userId: userId})
       .skip ((currentPage - 1) * perPage)
       .limit (perPage);
@@ -47,9 +44,6 @@ exports.addDocuments = async (req, res, next) => {
     if (!user) {
       return res.status (404).json ({message: 'User does not exists'});
     }
-    // if (user._id.toString () !== userId.toString ()) {
-    //   return res.status (403).json ({message: 'User not authorized'});
-    // }
     const newDocument = new Documents ({
       imageUrl: documentUrl,
       title: title,

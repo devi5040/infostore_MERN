@@ -10,7 +10,6 @@ import { toast } from 'react-toastify'
 function EditEducation( { closeModalHandler, educationId } ) {
     const educationDetails = useSelector( state => state.education.educationDetails );
     const education = educationDetails.filter( education => education._id === educationId );
-    console.log( education )
     const dispatch = useDispatch();
     const editEducationAction = async ( prevFormState, formData ) => {
         const level = formData.get( 'level' );

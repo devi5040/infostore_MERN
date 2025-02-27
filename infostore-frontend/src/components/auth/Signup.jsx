@@ -1,4 +1,4 @@
-import React, { isValidElement, useActionState } from 'react'
+import React, { useActionState } from 'react'
 import Modal from '../modal/Modal'
 import TextInput from '../Form-input/TextInput'
 import TextAreaInput from '../Form-input/TextAreaInput'
@@ -67,7 +67,6 @@ function Signup( { closeModal } ) {
 
         if ( errors.length > 0 )
         {
-            errors.map( error => console.log( error ) )
             return { errors: errors, enteredValues: { name, email, mobileNumber, height, weight, age, bloodGroup, address } }
         }
 

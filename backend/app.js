@@ -23,7 +23,7 @@ app.use (bodyParser.json ());
 app.use (cookieParser ());
 app.use (
   cors ({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://localhost:4173'],
     credentials: true,
   })
 );
@@ -31,7 +31,7 @@ app.use (
 // app.use (express.json ());
 
 app.use ((req, res, next) => {
-  res.setHeader ('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader ('Access-Control-Allow-Origin', ['http://localhost:5173']);
   res.setHeader (
     'Access-Control-Allow-Methods',
     'GET, POST, PUT, PATCH, DELETE'
@@ -60,6 +60,5 @@ mongoose
     });
   })
   .catch (error => {
-    console.log (error);
     res.status (500).json ({message: 'Some error has been occured'});
   });

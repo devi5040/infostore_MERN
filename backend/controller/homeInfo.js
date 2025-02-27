@@ -4,7 +4,6 @@ const Documents = require ('../models/documents');
 
 exports.getProfileCompletion = async (req, res) => {
   const userId = req.userId;
-  console.log ('UserId', userId);
   try {
     const user = await User.findById (userId).select (
       '-_id -password -createdAt -updatedAt -__v -resetToken -tokenExpiration'
@@ -16,7 +15,7 @@ exports.getProfileCompletion = async (req, res) => {
         count++;
       }
     });
-    const profileCompleted = 100 - count / TOTAL_COUNT * 100;
+    const profileCompleted = count / TOTAL_COUNT * 100;
     res.status (200).json ({
       message: 'Fetched the profile successfully',
       count: profileCompleted.toFixed (0),

@@ -11,11 +11,14 @@ const profileSlice = createSlice ({
     builder.addCase (getProfile.fulfilled, (state, action) => {
       state.profileDetails = action.payload.user;
     });
+    builder.addCase(getProfile.rejected,(state,action)=>{
+      toast.error(action?.payload?.message)
+    })
     builder.addCase(editProfile.fulfilled,(state,action)=>{
       toast.success(action.payload?.message)
     })
     builder.addCase(editProfile.rejected,(state,action)=>{
-      toast.error('Error occured')
+      toast.error(action?.payload?.message)
     })
   },
 });
