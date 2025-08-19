@@ -152,5 +152,5 @@ The frontend utilizes ESLint for code linting.  Run `npm run lint` in the `infos
 
 ## 12. Author details
 
-[Your Name/Team Name]
-[Your Contact Information]
+Deviprasad Rai P
+<dpraidola@gmail.com>
